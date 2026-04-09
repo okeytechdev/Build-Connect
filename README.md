@@ -57,9 +57,6 @@ A plataforma suporta navegação por setores como:
 - CSS3
 - JavaScript (ES6+)
 - Google Apps Script
-- Google Sheets
-- Google Drive
-- YouTube
 
 ## Arquitetura
 
