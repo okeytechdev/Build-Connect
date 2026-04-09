@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build.Connect</title>
+    <meta
+      name="description"
+      content="Build.Connect - Hub de documentos e vídeos de integração por setor."
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div id="auth-root"></div>
+
+    <div class="app-shell" id="app-shell" hidden>
+      <aside class="sidebar" aria-label="Navegação lateral principal">
+        <div id="sidebar-root"></div>
+      </aside>
+
+      <main class="content" id="content" tabindex="-1" aria-live="polite"></main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@1.7.0/dist/umd/lucide.min.js" defer></script>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
