@@ -74,18 +74,7 @@ js/
   components/
   services/
   utils/
-apps-script/
 ```
-
-## Integrações
-
-Atualmente, o projeto está preparado para trabalhar com integrações como:
-
-- Google Drive para documentos e instruções escritas
-- YouTube para vídeos de treinamento
-- Google Sheets para autenticação e dados de usuários
-- Google Apps Script como camada de backend e integração
-
 ## Público-alvo
 
 O Build.Connect foi pensado para empresas que desejam estruturar melhor seus processos de integração, treinamento e distribuição de conteúdo interno, mantendo uma experiência organizada e adaptada por setor.
