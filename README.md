@@ -46,6 +46,8 @@ A plataforma suporta navegação por setores como:
   - Almoxarifado
   - Corte
   - Acabamento
+  - Revisão
+  - Externo
 - Compras
 - Logística
 - Financeiro
