@@ -59,7 +59,7 @@ const FEEDBACK_UI_DEFAULTS = Object.freeze({
 
 const WELCOME_VIDEO = Object.freeze({
   title: 'Vídeo institucional Build.Connect',
-  embedUrl: 'https://www.youtube.com/embed/QPzoygOAs1U',
+  embedUrl: 'https://www.youtube.com/embed/kvxXe6evgDM',
 });
 
 let currentRenderToken = 0;

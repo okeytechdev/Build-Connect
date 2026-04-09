@@ -85,8 +85,20 @@ export function renderLoginView(rootElement, loginState, handlers) {
 
 function bindLoginEvents(rootElement, handlers) {
   const form = rootElement.querySelector('#login-form');
+  const idInput = rootElement.querySelector('#login-id');
   const passwordInput = rootElement.querySelector('#login-password');
   const toggleButton = rootElement.querySelector('#login-password-toggle');
+
+
+  idInput?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') {
+      return;
+    }
+
+    event.preventDefault();
+    passwordInput?.focus();
+    passwordInput?.select?.();
+  });
 
   toggleButton?.addEventListener('click', () => {
     const isPasswordVisible = passwordInput?.type === 'text';

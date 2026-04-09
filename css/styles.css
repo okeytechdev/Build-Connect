@@ -297,7 +297,6 @@ body[data-theme='dark'] .login-alert.is-error {
   gap: 24px;
   padding: 24px;
   transition: grid-template-columns var(--transition-base);
-  isolation: isolate;
 }
 
 .app-shell.is-sidebar-collapsed {
@@ -307,9 +306,7 @@ body[data-theme='dark'] .login-alert.is-error {
 .sidebar {
   position: sticky;
   top: 24px;
-  z-index: 40;
   align-self: start;
-  overflow: visible;
 }
 
 .sidebar-panel {
@@ -323,7 +320,6 @@ body[data-theme='dark'] .login-alert.is-error {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow);
-  overflow: visible;
   transition: width 240ms var(--ease-premium), padding 220ms var(--ease-soft), border-color var(--transition-base), background-color var(--transition-base), box-shadow 220ms var(--ease-soft);
 }
 
@@ -362,9 +358,12 @@ body[data-theme='dark'] .login-alert.is-error {
   letter-spacing: -0.02em;
 }
 
-.brand-title-accent,
-.brand-title-dot {
+.brand-title-accent {
   color: var(--primary);
+}
+
+.brand-title-dot {
+  color: currentColor;
 }
 
 .brand-subtitle {
@@ -410,7 +409,6 @@ body[data-theme='dark'] .login-alert.is-error {
   flex: 1;
   flex-direction: column;
   gap: 4px;
-  overflow: visible;
 }
 
 .nav-group {
@@ -418,7 +416,6 @@ body[data-theme='dark'] .login-alert.is-error {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  overflow: visible;
 }
 
 .nav-item,
@@ -585,7 +582,7 @@ body[data-theme='dark'] .login-alert.is-error {
   position: absolute;
   top: 50%;
   left: calc(100% + 14px);
-  z-index: 80;
+  z-index: 24;
   min-width: max-content;
   padding: 10px 12px;
   border: 1px solid var(--border);
@@ -742,8 +739,6 @@ body[data-theme='dark'] .login-alert.is-error {
 }
 
 .content {
-  position: relative;
-  z-index: 1;
   min-width: 0;
   display: flex;
   align-items: stretch;
@@ -1290,9 +1285,12 @@ body.is-auth-view .login-title {
   letter-spacing: -0.04em;
 }
 
-body.is-auth-view .brand-title-accent,
-body.is-auth-view .brand-title-dot {
+body.is-auth-view .brand-title-accent {
   color: #e7b562;
+}
+
+body.is-auth-view .brand-title-dot {
+  color: currentColor;
 }
 
 body.is-auth-view .login-subtitle {
@@ -1856,20 +1854,6 @@ body.is-auth-view .login-footnote {
   width: 100%;
   height: 100%;
   border: 0;
-}
-
-.document-modal {
-  width: min(100%, 1120px);
-}
-
-.document-modal-frame-wrap {
-  height: min(78vh, 900px);
-  aspect-ratio: auto;
-  background: var(--surface);
-}
-
-.document-modal-frame {
-  background: #ffffff;
 }
 
 body.has-video-modal {
