@@ -10,9 +10,12 @@ import {
   NAVIGATION_ITEMS,
   findItemById,
   getInitialNavigationState,
+  getNavigationItemsForAccess,
   isHomeItem,
   persistNavigationState,
+  sanitizeActiveItemForNavigation,
   shouldRenderDefaultSectorCards,
+  shouldStartProductionExpandedForAccess,
 } from './services/navigation.service.js';
 import { applyTheme, getInitialTheme, toggleTheme } from './utils/theme.js';
 
@@ -43,6 +46,10 @@ function bootstrap() {
   showLoginScreen();
 }
 
+function getAccessibleNavigationItems() {
+  return getNavigationItemsForAccess(state.authenticatedUser?.setor || 'all');
+}
+
 function renderApp() {
   renderSidebar(
     sidebarRoot,
@@ -54,13 +61,14 @@ function renderApp() {
       onGroupToggle: handleGroupToggle,
       onLogout: handleLogout,
     },
-    NAVIGATION_ITEMS,
+    getAccessibleNavigationItems(),
     currentTheme,
   );
 }
 
 function renderCurrentView(options = {}) {
-  const selectedItem = findItemById(state.activeItemId) ?? findItemById('inicio');
+  const navigationItems = getAccessibleNavigationItems();
+  const selectedItem = findItemById(state.activeItemId, navigationItems) ?? findItemById('inicio', navigationItems);
 
   renderContentView(
     contentRoot,
@@ -92,7 +100,7 @@ async function handleLoginSubmit(credentials) {
       loginState.isLoading = false;
       state.authenticatedUser = response.user;
       persistAuthenticatedUser(response.user);
-      resetNavigationToHome();
+      resetNavigationForAccess(response.user?.setor);
       showAuthenticatedApplication();
       return;
     }
@@ -123,10 +131,7 @@ function handleSidebarToggle() {
     state.isProductionExpanded = false;
   }
 
-  persistNavigationState(state);
-  syncAppShellState();
-  syncSidebarCollapsedDOM();
-  syncProductionAccordionDOM();
+  persistAndRender({ shouldRenderContent: false });
 }
 
 function handleThemeToggle() {
@@ -150,7 +155,7 @@ function handleNavigation(itemId) {
     return;
   }
 
-  const selectedItem = findItemById(itemId);
+  const selectedItem = findItemById(itemId, getAccessibleNavigationItems());
 
   if (selectedItem?.parentId === 'producao') {
     state.isProductionExpanded = true;
@@ -186,22 +191,6 @@ function handleGroupToggle(groupId) {
   syncProductionAccordionDOM();
 }
 
-function syncSidebarCollapsedDOM() {
-  const toggleButton = sidebarRoot.querySelector('#sidebar-toggle');
-
-  if (!toggleButton) {
-    renderApp();
-    return;
-  }
-
-  const isCollapsed = state.isSidebarCollapsed;
-  const label = isCollapsed ? 'Expandir sidebar' : 'Recolher sidebar';
-
-  toggleButton.dataset.collapsed = String(isCollapsed);
-  toggleButton.setAttribute('aria-label', label);
-  toggleButton.setAttribute('title', label);
-}
-
 function syncProductionAccordionDOM() {
   const navGroup = sidebarRoot.querySelector('.nav-group');
   const groupButton = sidebarRoot.querySelector('[data-nav-group-toggle="producao"]');
@@ -231,8 +220,13 @@ function persistAndRender({ shouldRenderContent = true, animateContent = false }
 
 
 function resetNavigationToHome() {
-  state.activeItemId = 'inicio';
-  state.isProductionExpanded = false;
+  resetNavigationForAccess('all');
+}
+
+function resetNavigationForAccess(sectorAccess) {
+  const navigationItems = getNavigationItemsForAccess(sectorAccess);
+  state.activeItemId = sanitizeActiveItemForNavigation('inicio', navigationItems);
+  state.isProductionExpanded = shouldStartProductionExpandedForAccess(sectorAccess);
   persistNavigationState(state);
 }
 
@@ -241,6 +235,8 @@ function syncAppShellState() {
 }
 
 function showAuthenticatedApplication() {
+  const navigationItems = getAccessibleNavigationItems();
+  state.activeItemId = sanitizeActiveItemForNavigation(state.activeItemId, navigationItems);
   document.body.classList.remove('is-auth-view');
   authRoot.hidden = true;
   appShell.hidden = false;
